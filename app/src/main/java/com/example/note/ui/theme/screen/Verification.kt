@@ -6,11 +6,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,12 +35,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.room.ColumnInfo
 import com.example.note.R
+import com.example.note.components.button
 import com.example.note.navigation.Routing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-fun failed() {
+fun failed(Authentication:Boolean=false) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -51,6 +54,7 @@ fun failed() {
                 },
             )
         }) { innerpadding ->
+        if(Authentication){
         Column(
             modifier = Modifier
                 .padding(innerpadding)
@@ -60,8 +64,7 @@ fun failed() {
         ) {
             Card(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
+                    .padding(30.dp),
                 elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
                 shape = RoundedCornerShape(corner = CornerSize(15.dp))
             ) {
@@ -82,7 +85,52 @@ fun failed() {
                         fontWeight = FontWeight.SemiBold
                     )
                 }
+                }
             }
         }
+        else{
+            Column(
+                modifier = Modifier
+                    .padding(innerpadding)
+                    .padding(top = 50.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(10.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+                    shape = RoundedCornerShape(corner = CornerSize(15.dp))
+                ) {
+                    Column(modifier = Modifier.
+                    padding(10.dp),
+                        horizontalAlignment = Alignment.Start
+                    ) {
+                        Text(
+                            text = "Please Verify 🥹",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "Click on the button below to verify",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        Text(
+                            text = "Secured by APRIL",
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
+                }
+                button(text = "Authenticate",
+                    modifier = Modifier.padding(20.dp),
+                    onclick = {
+
+                    })
+            }
+        }
+
+        }
     }
-}

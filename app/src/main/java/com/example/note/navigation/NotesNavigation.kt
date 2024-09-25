@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import com.example.note.ui.theme.screen.AddnoteScreen
 import com.example.note.ui.theme.screen.NoteScreen
 import com.example.note.ui.theme.screen.NoteViewModel
+import com.example.note.ui.theme.screen.failed
 import java.util.UUID
 
 @Composable
@@ -26,6 +27,10 @@ fun NotesNavigation (noteViewModel: NoteViewModel = viewModel()){
         navController = navcontroller,
         startDestination = Routing.NoteScreen.name){
         //making nav graph
+
+        composable(Routing.Verification.name){
+            failed()
+        }
 
         composable(Routing.NoteScreen.name) {
             NoteScreen(navcontroller,
