@@ -1,10 +1,18 @@
 package com.example.note.ui.theme.screen
 
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,24 +32,27 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.room.ColumnInfo
+import androidx.navigation.NavController
 import com.example.note.R
 import com.example.note.components.button
+import com.example.note.manager.BiometricPromptManager
 import com.example.note.navigation.Routing
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun failed(Authentication:Boolean=false) {
+fun failed(navController:NavController,promptManager: BiometricPromptManager) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -53,84 +64,81 @@ fun failed(Authentication:Boolean=false) {
                     Text(text = stringResource(id = R.string.app_name))
                 },
             )
-        }) { innerpadding ->
-        if(Authentication){
-        Column(
-            modifier = Modifier
-                .padding(innerpadding)
-                .padding(top = 50.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Card(
-                modifier = Modifier
-                    .padding(30.dp),
-                elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
-                shape = RoundedCornerShape(corner = CornerSize(15.dp))
-            ) {
-                Column(modifier = Modifier.padding(3.dp)) {
-                    Text(
-                        text = "Authentication Failed",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "k xa vitra ?😭",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    Text(
-                        text = "Vitra kei na kei ta xa jun dekhauna mildaina 🥹",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-                }
+        }) {innerpadding->
+        val biometricResult by promptManager.promptResult
+            .collectAsState(initial = null)
+
+        val enrollLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult() ,
+            onResult ={
+                println("Activity result is  $it")
             }
-        }
-        else{
-            Column(
-                modifier = Modifier
-                    .padding(innerpadding)
-                    .padding(top = 50.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
-                    shape = RoundedCornerShape(corner = CornerSize(15.dp))
-                ) {
-                    Column(modifier = Modifier.
-                    padding(10.dp),
-                        horizontalAlignment = Alignment.Start
-                    ) {
-                        Text(
-                            text = "Please Verify 🥹",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = "Click on the button below to verify",
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                        Text(
-                            text = "Secured by APRIL",
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.SemiBold
+        )
+        LaunchedEffect(biometricResult) {
+            if(biometricResult is BiometricPromptManager.BiometricResult.AuthenticationNoteSet){
+                if (Build.VERSION.SDK_INT>30 ){
+                    val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
+                        putExtra(
+                            Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                            BIOMETRIC_STRONG or  DEVICE_CREDENTIAL
                         )
                     }
+                    enrollLauncher.launch(enrollIntent)
                 }
-                button(text = "Authenticate",
-                    modifier = Modifier.padding(20.dp),
-                    onclick = {
-
-                    })
             }
         }
+        Column(modifier=Modifier
+            .fillMaxSize()
+            .padding(innerpadding),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Button(onClick = {
+                promptManager.showBiometricPrompt(
+                    title="KEI NA KEI TA HO",
+                    description = "SECURED BY APRIL"
+                )
+            }) {
+                Text("Authenticate", style = TextStyle(
+                    fontSize = 20.sp,
+                    fontFamily = FontFamily.SansSerif,
+                    fontWeight = FontWeight.SemiBold
+                ))
+            }
+            if(biometricResult !=null){
+                when(biometricResult) {
+                    is BiometricPromptManager.BiometricResult.AuthenticationError -> {
+                        Text(text ="Authentication Error")
+                    }
 
+                    BiometricPromptManager.BiometricResult.AuthenticationFailed -> {
+                        Text(text ="Authentication Failed")
+                    }
+
+                    BiometricPromptManager.BiometricResult.AuthenticationNoteSet -> {
+                        Text(text ="Authentication Noteset")
+                    }
+
+                    BiometricPromptManager.BiometricResult.AuthenticationSuccess -> {
+                        LaunchedEffect(Unit) {
+                            navController.navigate(Routing.NoteScreen.name) {
+                                popUpTo(Routing.Verification.name) { inclusive = true }
+                            }
+                        }
+                    }
+
+                    BiometricPromptManager.BiometricResult.FeatureUnavailable -> {
+                        Text(text = "Feature unavailable")
+                    }
+
+                    BiometricPromptManager.BiometricResult.HardwareUnavailable -> {
+                        Text(text ="Hardware unavailable")
+                    }
+
+                    null -> TODO()
+                }
+            }
         }
     }
+}
+

@@ -1,13 +1,23 @@
 package com.example.note.navigation
 
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
+import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.note.manager.BiometricPromptManager
 import com.example.note.ui.theme.screen.AddnoteScreen
 import com.example.note.ui.theme.screen.NoteScreen
 import com.example.note.ui.theme.screen.NoteViewModel
@@ -15,7 +25,7 @@ import com.example.note.ui.theme.screen.failed
 import java.util.UUID
 
 @Composable
-fun NotesNavigation (noteViewModel: NoteViewModel = viewModel()){
+fun NotesNavigation (noteViewModel: NoteViewModel = viewModel(), prompt: BiometricPromptManager){
 
     //getting all our notes
     val notesList =noteViewModel.noteList.collectAsState().value
@@ -25,11 +35,11 @@ fun NotesNavigation (noteViewModel: NoteViewModel = viewModel()){
 
     NavHost(
         navController = navcontroller,
-        startDestination = Routing.NoteScreen.name){
+        startDestination = Routing.Verification.name){
         //making nav graph
 
         composable(Routing.Verification.name){
-            failed()
+            failed(navController = navcontroller, promptManager = prompt)
         }
 
         composable(Routing.NoteScreen.name) {
@@ -59,7 +69,6 @@ fun NotesNavigation (noteViewModel: NoteViewModel = viewModel()){
             }
             AddnoteScreen(navcontroller,uuid,noteViewModel)
         }
-
-
     }
 }
+

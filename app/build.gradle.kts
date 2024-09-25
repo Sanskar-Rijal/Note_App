@@ -99,7 +99,12 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
 
+    //implementatino for biometric
+    implementation("androidx.biometric:biometric:1.1.0")
 
+    //that popup for enter finger print shows only in app compat activity so implementing app compat activity
+    implementation("androidx.appcompat:appcompat:1.7.0")
+    
 
     //jetpack compose navigation dependency
     implementation("androidx.navigation:navigation-compose:2.8.1")
@@ -108,3 +113,4 @@ dependencies {
 kapt {
     correctErrorTypes = true
 }
+

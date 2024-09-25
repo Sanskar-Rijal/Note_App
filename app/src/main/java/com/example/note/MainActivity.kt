@@ -4,27 +4,29 @@ import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.note.manager.BiometricPromptManager
 import com.example.note.navigation.NotesNavigation
 import com.example.note.ui.theme.NoteTheme
-import com.example.note.ui.theme.screen.NoteScreen
 import com.example.note.ui.theme.screen.NoteViewModel
 import com.example.note.ui.theme.screen.SplashModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val viewModel by viewModels<SplashModel>()
+
+    //for biometric setup
+    private val promptManager by lazy{
+        BiometricPromptManager(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +73,7 @@ class MainActivity : ComponentActivity() {
                 val noteViewModel:NoteViewModel by viewModels()
                 //you can use like this also
                 //val noteViewModel =viewModel<NoteViewModel>()
-                NotesNavigation(noteViewModel)
+                NotesNavigation(noteViewModel,promptManager)
             }
         }
     }
