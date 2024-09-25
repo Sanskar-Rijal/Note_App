@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="2000"
+    android:interpolator="@anim/overshoot_interpolator">
+    <propertyValuesHolder
+        android:propertyName="rotation"
+        android:valueType="floatType"
+        android:valueFrom="0.0"
+        android:valueTo="360"
+        />
+    <!--  we want to animate rotation so we set property name rotation
+  we want to rotate from 0.0  to 360 degrees so we set 0.0 to 360
+  degrees are of float type -->
+    <propertyValuesHolder
+        android:propertyName="scaleX"
+        android:valueType="floatType"
+        android:valueFrom="0.0"
+        android:valueTo="0.4"
+        />
+    <propertyValuesHolder
+        android:propertyName="scaleY"
+        android:valueType="floatType"
+        android:valueFrom="0.0"
+        android:valueTo="0.4"
+        />
+
+</objectAnimator>

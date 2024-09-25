@@ -1,0 +1,60 @@
+package com.example.note.navigation
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.example.note.ui.theme.screen.AddnoteScreen
+import com.example.note.ui.theme.screen.NoteScreen
+import com.example.note.ui.theme.screen.NoteViewModel
+import java.util.UUID
+
+@Composable
+fun NotesNavigation (noteViewModel: NoteViewModel = viewModel()){
+
+    //getting all our notes
+    val notesList =noteViewModel.noteList.collectAsState().value
+    //in flow you always have to collect the information
+
+    val navcontroller= rememberNavController()
+
+    NavHost(
+        navController = navcontroller,
+        startDestination = Routing.NoteScreen.name){
+        //making nav graph
+
+        composable(Routing.NoteScreen.name) {
+            NoteScreen(navcontroller,
+                notes =notesList ,
+                onAddNote = {
+                    noteViewModel.addNote(it)
+                },
+                onRemoveNote = {
+                    noteViewModel.removeNote(it)
+                },
+                onUpdaetNote = {
+                    noteViewModel.updateNote(it)
+                })
+        }
+
+        composable(Routing.AddnoteScreen.name){
+            AddnoteScreen(navcontroller,null,noteViewModel)
+        }
+
+        composable(Routing.AddnoteScreen.name+"/{note}",
+            arguments= listOf(navArgument(name="note"){type= NavType.StringType})
+        ) {backstackentry->
+            val noteId=backstackentry.arguments?.getString("note")
+            val uuid = noteId?.let {
+                UUID.fromString(it) //converting back to UUID
+            }
+            AddnoteScreen(navcontroller,uuid,noteViewModel)
+        }
+
+
+    }
+}
