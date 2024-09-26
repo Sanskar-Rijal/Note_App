@@ -49,4 +49,15 @@ When the app is opened, users are immediately prompted with a biometric authenti
 
 ## Screenshots
 
+<img src="https://media.giphy.com/media/e4L7BqzVTdwYadBMDm/giphy.gif" height=400 width=200/>  <img src="https://media.giphy.com/media/ytDg2vnqPADH8oznIj/giphy.gif" height=400 width=200/>
+
+
+<div style="display: flex; gap: 40px;">
+<a href="https://imgur.com/XUf6Sr9"><img src="https://i.imgur.com/XUf6Sr9.gif" title="source: imgur.com" height=400 width=200 /></a>
+<a href="https://imgur.com/5PrNOAn"><img src="https://i.imgur.com/5PrNOAn.gif" title="source: imgur.com" height=400 width=200 /></a> 
+<a href="https://imgur.com/folEKUc"><img src="https://i.imgur.com/folEKUc.gif" title="source: imgur.com" height=400 width=200 /></a> 
+<a href="https://imgur.com/oDF1z2j"><img src="https://i.imgur.com/oDF1z2j.gif" title="source: imgur.com" height=400 width=200 /></a> 
+<a href="https://imgur.com/3gOI1HG"><img src="https://i.imgur.com/3gOI1HG.gif" title="source: imgur.com" height=400 width=200 /></a>
+</div>
+
   
