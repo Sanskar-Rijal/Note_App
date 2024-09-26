@@ -13,6 +13,44 @@ A modern note-taking application built using Jetpack Compose that allows users t
  
   - **Theme**: The app uses a dynamic color palette for Android 12 and above, adapting to the system-wide theme changes. For devices running below Android 12, the app defaults to a purple theme.
 
+ Here are some **non-functional requirements** that you can include in the README for your note-taking app. These describe the system's overall qualities and performance expectations.
+
+### **Non-functional Requirements**
+
+1. **Security:**
+   - The app uses biometric authentication (fingerprint or phone pattern) to secure access to notes, ensuring that only authenticated users can view and modify their content.
+
+2. **Performance:**
+   - The app should load quickly and be responsive, providing smooth navigation between screens, even with a large number of notes.
+   - Biometric authentication should process efficiently, with minimal delay in granting access to the notes.
+
+3. **Reliability:**
+   - The app must handle errors gracefully, such as failed biometric authentication or hardware unavailability.
+   - It should ensure data consistency, with reliable saving, updating, and deleting of notes.
+
+4. **Usability:**
+   - The app follows modern Android UI guidelines with Material 3 design, ensuring a user-friendly and intuitive experience.
+   - It adapts to different screen sizes and orientations (portrait and landscape modes).
+
+5. **Compatibility:**
+   - The app supports Android 8 (API level 26) and above, with dynamic theming for devices running Android 12 and later, ensuring compatibility across a range of devices.
+
+6. **Maintainability:**
+   - The app is modular, with clearly defined components and view models, making it easy to maintain and extend.
+   - Hilt is used for dependency injection, ensuring that code is clean, manageable, and easy to test.
+
+7. **Extensibility:**
+   - The app is designed to allow for future expansions, such as adding more note-related features (e.g., categorization, reminders) or additional security features.
+
+8. **Data Privacy:**
+   - User notes are stored locally on the device.
+   - The app does not send or share any user data externally.
+
+9. **Efficiency:**
+    - The app minimizes resource usage, ensuring low battery consumption and efficient memory usage, even during background operations.
+
+---
+
 ## Tech Stack
 
 - **Programming Language**: Kotlin
@@ -34,17 +72,6 @@ A modern note-taking application built using Jetpack Compose that allows users t
 
 3. Build and run the project on your Android device/emulator with biometric support.
 
-
-### Authentication
-
-When the app is opened, users are immediately prompted with a biometric authentication screen. Authentication can be done using fingerprint, face recognition, or device credentials (depending on the device's capabilities).
-
-### Notes
-
-- **Add a New Note**: Use the floating action button (FAB) on the note screen to create a new note. Enter a title and description, then save the note.
-- **Edit a Note**: Long-press on an existing note to update its title and description.
-- **Delete a Note**: Swipe or click the delete icon on a note to remove it from the list.
-- **Jetpack Compose UI**: The app utilizes Jetpack Compose for building modern and responsive UIs.
 
 > Splash Screen Animation And Biometrics
 <img src="https://media.giphy.com/media/e4L7BqzVTdwYadBMDm/giphy.gif" height=400 width=200/>  
