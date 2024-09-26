@@ -1,6 +1,5 @@
 package com.example.note.ui.theme.data
 
-import androidx.compose.runtime.MutableState
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert

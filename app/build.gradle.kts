@@ -13,8 +13,8 @@ android {
         applicationId = "com.example.note"
         minSdk = 26
         targetSdk = 34
-        versionCode = 3
-        versionName = "1.2.1"
+        versionCode = 4
+        versionName = "1.7.2.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -104,7 +104,7 @@ dependencies {
 
     //that popup for enter finger print shows only in app compat activity so implementing app compat activity
     implementation("androidx.appcompat:appcompat:1.7.0")
-    
+
 
     //jetpack compose navigation dependency
     implementation("androidx.navigation:navigation-compose:2.8.1")
