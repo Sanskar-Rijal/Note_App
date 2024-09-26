@@ -13,8 +13,6 @@ A modern note-taking application built using Jetpack Compose that allows users t
  
   - **Theme**: The app uses a dynamic color palette for Android 12 and above, adapting to the system-wide theme changes. For devices running below Android 12, the app defaults to a purple theme.
 
- Here are some **non-functional requirements** that you can include in the README for your note-taking app. These describe the system's overall qualities and performance expectations.
-
 ### **Non-functional Requirements**
 
 1. **Security:**
