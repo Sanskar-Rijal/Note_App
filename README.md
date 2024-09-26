@@ -26,25 +26,21 @@ A modern note-taking application built using Jetpack Compose that allows users t
    - The app must handle errors gracefully, such as failed biometric authentication or hardware unavailability.
    - It should ensure data consistency, with reliable saving, updating, and deleting of notes.
 
-4. **Usability:**
-   - The app follows modern Android UI guidelines with Material 3 design, ensuring a user-friendly and intuitive experience.
-   - It adapts to different screen sizes and orientations (portrait and landscape modes).
-
-5. **Compatibility:**
+4. **Compatibility:**
    - The app supports Android 8 (API level 26) and above, with dynamic theming for devices running Android 12 and later, ensuring compatibility across a range of devices.
 
-6. **Maintainability:**
+5. **Maintainability:**
    - The app is modular, with clearly defined components and view models, making it easy to maintain and extend.
    - Hilt is used for dependency injection, ensuring that code is clean, manageable, and easy to test.
 
-7. **Extensibility:**
+6. **Extensibility:**
    - The app is designed to allow for future expansions, such as adding more note-related features (e.g., categorization, reminders) or additional security features.
 
-8. **Data Privacy:**
+7. **Data Privacy:**
    - User notes are stored locally on the device.
    - The app does not send or share any user data externally.
 
-9. **Efficiency:**
+8. **Efficiency:**
     - The app minimizes resource usage, ensuring low battery consumption and efficient memory usage, even during background operations.
 
 ---
