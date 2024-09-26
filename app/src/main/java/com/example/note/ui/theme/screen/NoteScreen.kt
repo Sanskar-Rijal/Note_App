@@ -8,10 +8,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -21,8 +22,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -30,8 +29,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,6 +57,39 @@ import com.example.note.ui.theme.data.NoteDataSource
 import com.example.note.ui.theme.model.Note
 import com.example.note.util_typeconv.formatDate
 
+//to know whether user is scrolling up or down
+@Composable
+private fun LazyListState.isScrollingUp():Boolean{
+
+        /**
+         * previousIndex: Tracks the position (index) of the
+         * first visible item in the LazyColumn during the last frame.
+
+         * previousScrollOffset: Tracks the pixel offset within the first visible i
+         * tem during the last frame (since scrolling is not always by full items, but also in between items).
+         */
+        var previousIndex by remember (this) {
+        mutableStateOf(firstVisibleItemIndex) //firstVisibleitem index is the current positon
+    }
+    var previousScrollOffset by remember (this){
+        mutableStateOf(firstVisibleItemScrollOffset)
+    }
+    return remember(this){
+        derivedStateOf {
+            if(previousIndex != firstVisibleItemIndex){
+                previousIndex > firstVisibleItemIndex
+            }
+            else{
+                previousScrollOffset>=firstVisibleItemScrollOffset
+            }.also {
+                previousIndex =firstVisibleItemIndex
+                previousScrollOffset=firstVisibleItemScrollOffset
+            }
+        }
+    }.value//user scrolls upward then value is true , if downward then false
+}
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteScreen(
@@ -69,6 +104,9 @@ fun NoteScreen(
     val context = LocalContext.current
 
 
+
+    //creating state to know when the user is scrolling or not
+    val listState= rememberLazyListState()
 
     Scaffold(
         topBar = {
@@ -90,16 +128,16 @@ fun NoteScreen(
             )
         },
         floatingActionButton = {
-            ExtendedFloatingActionButton(onClick = {
-                navController.navigate(Routing.AddnoteScreen.name)
-            },
+            ExtendedFloatingActionButton(
                 icon = { Icon(Icons.Filled.Edit, "kei na kei ta lekhum") },
                 text = { Text(text = "Kei Na Kei Ta Lekhum",
                        style = TextStyle(
                            fontSize = 15.sp,
                            fontWeight = FontWeight.Bold)
                        ) },
-                containerColor = MaterialTheme.colorScheme.primary
+                containerColor = MaterialTheme.colorScheme.primary,
+                expanded =  listState.isScrollingUp(),
+                onClick = { navController.navigate(Routing.AddnoteScreen.name) },
             )
         }
     ) { innerpadding ->
@@ -108,7 +146,8 @@ fun NoteScreen(
                 .padding(7.dp)
                 .fillMaxWidth()
                 .fillMaxHeight(),
-                horizontalAlignment = Alignment.Start) {
+                horizontalAlignment = Alignment.Start,
+                state = listState){
                 items(notes){
                     NoteRow(note = it, onNoteClicked = {
                         onRemoveNote(it)
@@ -190,3 +229,5 @@ fun NoteRow(modifier:Modifier=Modifier,
         }
     }
 }
+
+// to detect whether the user is scrolling or not

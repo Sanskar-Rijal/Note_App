@@ -17,7 +17,6 @@ import com.example.note.ui.theme.screen.NoteViewModel
 import com.example.note.ui.theme.screen.SplashModel
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
