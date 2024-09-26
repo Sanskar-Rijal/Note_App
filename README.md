@@ -13,8 +13,6 @@ A modern note-taking application built using Jetpack Compose that allows users t
  
   - **Theme**: The app uses a dynamic color palette for Android 12 and above, adapting to the system-wide theme changes. For devices running below Android 12, the app defaults to a purple theme.
 
-- **Jetpack Compose UI**: The app utilizes Jetpack Compose for building modern and responsive UIs.
-
 ## Tech Stack
 
 - **Programming Language**: Kotlin
@@ -46,6 +44,7 @@ When the app is opened, users are immediately prompted with a biometric authenti
 - **Add a New Note**: Use the floating action button (FAB) on the note screen to create a new note. Enter a title and description, then save the note.
 - **Edit a Note**: Long-press on an existing note to update its title and description.
 - **Delete a Note**: Swipe or click the delete icon on a note to remove it from the list.
+- **Jetpack Compose UI**: The app utilizes Jetpack Compose for building modern and responsive UIs.
 
 > Splash Screen Animation And Biometrics
 <img src="https://media.giphy.com/media/e4L7BqzVTdwYadBMDm/giphy.gif" height=400 width=200/>  
