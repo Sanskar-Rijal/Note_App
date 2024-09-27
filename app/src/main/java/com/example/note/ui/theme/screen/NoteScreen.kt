@@ -166,7 +166,7 @@ fun NoteScreen(
             CustomDialogExample(
                 icon = Icons.Default.Warning,
                 dialogTitle="Delete Note",
-                dialogText = "Will you delete me 🥹😭🤧?,Are you sure please think again 😭",
+                dialogText = "Will you delete me? 🥹😭🤧 Are you sure? Please think again 😭",
                 Confirmation ={
                     onRemoveNote(SelectNote!!)
                     showDeleteDialouge.value=false
