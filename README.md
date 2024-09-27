@@ -70,8 +70,8 @@ A modern note-taking application built using Jetpack Compose that allows users t
 > Splash Screen Animation And Biometrics
 <img src="https://media.giphy.com/media/e4L7BqzVTdwYadBMDm/giphy.gif" height=400 width=200/>  
 
-> Adding Note
-<img src="https://media.giphy.com/media/ytDg2vnqPADH8oznIj/giphy.gif" height=400 width=200/>
+> Adding/Deleting Note
+<img src="https://media.giphy.com/media/lZPuv3Xlaela6FTx0b/giphy.gif" height=400 width=200/>
 
 
 
