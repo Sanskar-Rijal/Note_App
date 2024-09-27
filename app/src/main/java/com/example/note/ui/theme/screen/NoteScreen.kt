@@ -13,6 +13,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -97,6 +99,17 @@ fun NoteScreen(
     //creating state to know when the user is scrolling or not
     val listState= rememberLazyListState()
 
+
+
+    //making state for alert dialouge
+     var showDeleteDialouge = remember {
+         mutableStateOf(false)
+     }
+    //making state for selected note
+    var SelectNote:Note? by remember {
+        mutableStateOf(null)
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -139,7 +152,9 @@ fun NoteScreen(
                 state = listState){
                 items(notes){
                     NoteRow(note = it, onNoteClicked = {
-                        onRemoveNote(it)
+                        //onRemoveNote(it)
+                        SelectNote=it
+                        showDeleteDialouge.value= true
                     },
                         onNoteLongPressed ={
                             //edit on longpress
@@ -147,6 +162,20 @@ fun NoteScreen(
                         } )
                 }
             }
+        if(showDeleteDialouge.value && SelectNote!=null){
+            CustomDialogExample(
+                icon = Icons.Default.Warning,
+                dialogTitle="Delete Note",
+                dialogText = "Will you delete me 🥹😭🤧?,Are you sure please think again 😭",
+                Confirmation ={
+                    onRemoveNote(SelectNote!!)
+                    showDeleteDialouge.value=false
+                },
+                onDismissRequest={
+                    showDeleteDialouge.value =false
+                }
+            )
+        }
         }
         //making scrollable list for showing saved notes
     }
@@ -219,4 +248,3 @@ fun NoteRow(modifier:Modifier=Modifier,
     }
 }
 
-// to detect whether the user is scrolling or not
